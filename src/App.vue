@@ -1,11 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import SiteNavigation from './components/site-navigation.vue'
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
-</template>
+  <h1>Testing form</h1>
 
-<style scoped></style>
+  <site-navigation />
+
+  <main>
+    <router-view />
+  </main>
+</template>
