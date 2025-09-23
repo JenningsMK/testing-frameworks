@@ -1,5 +1,60 @@
 <script setup lang="ts">
+import testingForm from '@/components/testing-form.vue';
+import {computed, ref, shallowRef} from "vue";
 
+import { useRegle, createRule, inferRules } from '@regle/core';
+import { required, minLength, email, withMessage } from "@regle/rules";
+
+const formDetails = ref({
+  givenName: '',
+  frameworks: []
+});
+
+const isPhoneNumber = createRule({
+  validator: (value) => {
+    return /^[0-9]{10}$/.test(value);
+  },
+});
+
+const isValid = shallowRef(undefined);
+
+const rules = computed(() => {
+  return inferRules(formDetails, {
+    givenName: {
+      required: withMessage(required, 'Whats you name?'),
+      minLength: withMessage(minLength(2), 'Your name is too short, it must be at least 2 characters long'),
+    },
+
+    familyName: {
+      required,
+    },
+
+    emailAddress: {
+      email,
+    },
+
+    phoneNumber: {
+      required,
+      isPhoneNumber,
+    },
+
+    cssColour: {
+      required,
+    },
+
+    frameworks: {
+      required
+    }
+  });
+});
+
+const {r$} = useRegle(formDetails, rules);
+
+function submitForm() {
+  r$.$touch();
+
+  isValid.value = r$.$invalid;
+}
 </script>
 
 <template>
@@ -31,7 +86,56 @@
     </dl>
 
     <pre>
-      <code></code>
+      <code>
+        const formDetails = ref({});
+
+        const rules = computed(() => {
+          return inferRules(formDetails, {
+            givenName: {
+              required: withMessage(required, 'Whats you name?'),
+              minLength: withMessage(minLength(2), 'Your name is too short, it must be at least 2 characters long'),
+            },
+
+            familyName: {
+              required,
+            },
+
+            emailAddress: {
+              email,
+            },
+
+            phoneNumber: {
+              required,
+              isPhoneNumber,
+            },
+
+            cssColour: {
+              required,
+            },
+
+            frameworks: {
+              required
+            }
+          });
+        });
+
+        const {r$} = useRegle(formDetails, rules);
+      </code>
     </pre>
   </div>
+
+  <testing-form @submit-form="submitForm" v-model:form-details="formDetails"/>
+
+  <section>
+    <p>Is form valid: {{ !isValid }}</p>
+
+    <div v-if="isValid">
+      <h3>Validation Errors:</h3>
+      <ul>
+        <li v-for="(error) in r$.$errors" :key="error">
+          <strong>{{ error }}</strong>
+        </li>
+      </ul>
+    </div>
+  </section>
 </template>
