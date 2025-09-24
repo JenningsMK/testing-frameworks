@@ -75,10 +75,10 @@ function submitForm() {
       <dd>Clear with a lot of helpful code examples</dd>
 
       <dt>Update frequency</dt>
-      <dd>10 Comments in Auguste</dd>
+      <dd></dd>
 
       <dt>Tree shakeable</dt>
-      <dd>❌</dd>
+      <dd></dd>
 
       <dt>Other notes</dt>
       <dd>Doesn't support Vue 2</dd>
