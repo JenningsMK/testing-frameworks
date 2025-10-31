@@ -36,11 +36,6 @@ const router = createRouter({
       path: '/regie',
       component: () => import('@/views/regie.vue'),
     },
-      {
-          name: 'useVue',
-          path: '/useVue',
-          component: () => import('@/views/useVue.vue'),
-      }
   ],
 })
 

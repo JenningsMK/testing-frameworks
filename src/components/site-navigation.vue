@@ -10,7 +10,8 @@
     <li>
       <router-link :to="{ name: 'vee' }">VeeValidate</router-link>
     </li>
-    <li><a href="https://vestjs.dev/">Vest</a></li>
+    <li>
+      <router-link :to="{ name: 'vest'}">Vest</router-link></li>
     <li><a href="https://github.com/jquense/yup">Yup</a></li>
     <li><a href="https://zod.dev/">Zod</a></li>
   </ul>
