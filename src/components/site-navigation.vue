@@ -11,9 +11,14 @@
       <router-link :to="{ name: 'vee' }">VeeValidate</router-link>
     </li>
     <li>
-      <router-link :to="{ name: 'vest'}">Vest</router-link></li>
-    <li><a href="https://github.com/jquense/yup">Yup</a></li>
-    <li><a href="https://zod.dev/">Zod</a></li>
+      <router-link :to="{ name: 'vest'}">Vest</router-link>
+    </li>
+    <li>
+      <router-link :to="{ name: 'yup'}">Yup</router-link>
+    </li>
+    <li>
+      <router-link :to="{ name: 'zod'}">Zod</router-link>
+    </li>
   </ul>
 </nav>
 </template>
