@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import testingForm from '@/components/testing-form.vue';
+import IntoSection from '@/components/intro-section.vue';
+import PageHeader from '@/components/page-header.vue';
 import {useForm} from 'vee-validate';
 import {toTypedSchema} from '@vee-validate/zod';
 import {z} from 'zod';
 import {ref} from "vue";
 
+import { validationMessages } from '@/validation-messages.ts';
+const { givenName: givenNameMess, familyName: familyNameMess, emailAddress, frameworks, phoneNumber, cssColour} = validationMessages
+
 // Creates a typed schema for vee-validate
 const schema = toTypedSchema(
     z.object({
-      givenName: z.string().nonempty('Whats you name?').min(2, 'Your name is too short, it must be at least 2 characters long'),
-      familyName: z.string().nonempty(),
-      emailAddress: z.string().email(),
-      phoneNumber: z.string().regex(/^[0-9]{10}$/).nonempty(),
-      cssColour: z.string().nonempty(),
-      frameworks: z.array(z.string()).nonempty(),
+      givenName: z.string().nonempty(givenNameMess.required).min(2, givenNameMess.minLength),
+      familyName: z.string().nonempty(familyNameMess.required),
+      emailAddress: z.string().email(emailAddress.inValid),
+      phoneNumber: z.string().regex(/^[0-9]{10}$/).nonempty(phoneNumber.inValid),
+      cssColour: z.string().nonempty(cssColour.required),
+      frameworks: z.array(z.string()).nonempty(frameworks.required),
     }),
 );
 
@@ -33,31 +38,20 @@ const submitForm = handleSubmit(() => {
 </script>
 
 <template>
-  <header>
-    <h2>VeeValidate</h2>
+  <PageHeader>
+    <template #title>
+      VeeValidate
+    </template>
     <a href="https://vee-validate.logaretm.com/v4/">VeeValidate website and documentation</a>
-  </header>
+  </PageHeader>
 
-  <p>
-    VeeValidate is a validation library for Vue.js that provides a simple and flexible way to validate form fields.
-  </p>
+  <IntoSection cite-link="https://vee-validate.logaretm.com/v4/">
+    <template #into>
+      VeeValidate is a validation library for Vue.js that provides a simple and flexible way to validate form fields.
+    </template>
 
-  <div>
-    <dl>
-      <dt>Documentation</dt>
-      <dd>Clear as broken into two parts. Component level and Composition API level. With good live coding examples</dd>
-
-      <dt>Update frequency</dt>
-      <dd></dd>
-
-      <dt>Tree shakeable</dt>
-      <dd></dd>
-
-      <dt>Other notes</dt>
-      <dd>Uses 3rd party validation schemas</dd>
-    </dl>
-
-    <pre>
+    <template #code>
+      <pre>
       <code>
         const schema = toTypedSchema({
           ...
@@ -78,7 +72,8 @@ const submitForm = handleSubmit(() => {
         )
       </code>
     </pre>
-  </div>
+    </template>
+  </IntoSection>
 
   <testing-form @submit-form="submitForm" v-model:form-details="formDetails" v-bind="givenNameAttr" />
 

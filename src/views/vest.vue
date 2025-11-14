@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import testingForm from '@/components/testing-form.vue';
+import IntoSection from '@/components/intro-section.vue';
+import PageHeader from '@/components/page-header.vue';
 import { ref } from "vue";
 import {
   create,
@@ -10,6 +12,9 @@ import {
   optional
 } from 'vest';
 import 'vest/enforce/email';
+
+import { validationMessages } from '@/validation-messages.ts';
+const { givenName, familyName, emailAddress, frameworks, phoneNumber, cssColour} = validationMessages
 
 const formDetails = ref({
   givenName: '',
@@ -27,36 +32,35 @@ const suite = create((data = {}) => {
 
   test('checks we have a valid first name', () => {
     enforce(data.givenName)
-      .message('Whats your name')
+      .message(givenName.required)
       .isNotBlank()
-      .message('Your name is too short, it must be at least 2 characters long')
+      .message(givenName.minLength)
       .longerThan(2)
   });
 
   test('checking the family name', () => {
-    enforce(data.familyName).message('family name is required').isNotBlank();
+    enforce(data.familyName).message(familyName.required).isNotBlank();
   });
 
   test('emailAddress', () => {
     enforce(data.emailAddress)
-      .message('is required').isNotBlank()
-      .message('Not a valid email address').isEmail();
+      .message(emailAddress.inValid).isEmail();
   });
 
   test('phoneNumber', () => {
     enforce(data.phoneNumber)
-      .message('is required').isNotBlank()
-      .message('Your number is required').matches(/^\d{10}$/);
+      .message(phoneNumber.required).isNotBlank()
+      .message(phoneNumber.inValid).matches(/^\d{10}$/);
   });
 
   test('checking what colour they like', () => {
     enforce(data.cssColour)
-      .message('What you colour').isNotBlank();
+      .message(cssColour.required).isNotBlank();
   });
 
   test('framework', () => {
     enforce(data.frameworks)
-      .message('Need an answer').longerThan(1)
+      .message(frameworks.required).longerThan(1)
   })
 });
 
@@ -70,33 +74,30 @@ function submitForm() {
 </script>
 
 <template>
-  <header>
-    <h2>Vest</h2>
+  <PageHeader>
+    <template #title>Vest</template>
     <a href="https://vestjs.dev/docs/get_started">Vest website and documentation</a>
-  </header>
+  </PageHeader>
 
-  <div>
-    <blockquote cite="https://vestjs.dev/docs/get_started">
+  <IntoSection cite-link="https://vestjs.dev/docs/get_started">
+    <template #into>
       Vest is a powerful and easy-to-use JavaScript validation framework that allows you to write and run validations for your code. It is designed to handle complex validation scenarios while still being simple to use.
-    </blockquote>
-  </div>
+    </template>
 
-  <div>
-    <dl>
-      <dt>Documentation</dt>
-      <dd>Clear with a lot of helpful code examples</dd>
-    </dl>
-
-    <pre>
+    <template #code>
+      <pre>
       <code>
         const suit = create(data = {}) => {
           test('name is required', () => {
             enforce(data.name).message('Name is required').isNotEmpty();
           });
         });
+
+        suite(formDetails.value);
       </code>
     </pre>
-  </div>
+    </template>
+  </IntoSection>
 
   <testing-form @submit-form="submitForm" v-model:form-details="formDetails"/>
 

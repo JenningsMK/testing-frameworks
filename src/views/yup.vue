@@ -3,14 +3,19 @@ import { object, string, array } from 'yup';
 import { ref } from 'vue';
 
 import testingForm from '@/components/testing-form.vue';
+import IntoSection from '@/components/intro-section.vue';
+import PageHeader from '@/components/page-header.vue';
+
+import { validationMessages } from '@/validation-messages.ts';
+const { givenName, familyName, emailAddress, frameworks, phoneNumber, cssColour} = validationMessages
 
 const schema = object({
-  givenName: string().required('Name is required').min(2, 'Name is too short'),
-  familyName: string().required('Family name is required'),
-  emailAddress: string().email('Value doesnt look like an email address'),
-  phoneNumber: string().matches(/^\d{10}$/, 'Phone number miss match').required('Phone number is required'),
-  cssColour: string().required('Colour is required'),
-  frameworks: array(string().required('Need an answer')),
+  givenName: string().required(givenName.required).min(2, givenName.minLength),
+  familyName: string().required(familyName.required),
+  emailAddress: string().email(emailAddress.inValid),
+  phoneNumber: string().matches(/^\d{10}$/, phoneNumber.inValid).required(phoneNumber.required),
+  cssColour: string().required(cssColour.required),
+  frameworks: array(string().required(frameworks.required)),
 });
 
 const formDetails = ref({
@@ -38,19 +43,21 @@ async function submitForm() {
 </script>
 
 <template>
-  <header>
-    <h2>Vest</h2>
+  <PageHeader>
+    <template #title>
+      Yup
+    </template>
+
     <a href="https://github.com/jquense/yup">Yup website and documentation</a>
-  </header>
+  </PageHeader>
 
-  <div>
-    <blockquote cite="https://github.com/jquense/yup">
+  <IntoSection cite-link="https://github.com/jquense/yup">
+    <template #into>
       Yup is a schema builder for runtime value parsing and validation. Define a schema, transform a value to match, assert the shape of an existing value, or both. Yup schema are extremely expressive and allow modeling complex, interdependent validations, or value transformation.
-    </blockquote>
-  </div>
+    </template>
 
-  <div>
-    <pre>
+    <template #code>
+      <pre>
       <code>
         const schema = {
           givenName: string().required('Name is required').min(2, 'Name is too short'),
@@ -60,7 +67,8 @@ async function submitForm() {
         await schema.validate(data, schema)
       </code>
     </pre>
-  </div>
+    </template>
+  </IntoSection>
 
   <testing-form @submit-form="submitForm" v-model:form-details="formDetails"/>
 

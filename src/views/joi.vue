@@ -1,9 +1,14 @@
 <script setup lang="ts">
-  import testingForm from '@/components/testing-form.vue'
+  import testingForm from '@/components/testing-form.vue';
+  import IntoSection from '@/components/intro-section.vue';
+  import PageHeader from '@/components/page-header.vue';
   import {
     ref,
     shallowRef,
   } from 'vue';
+
+  import { validationMessages } from '@/validation-messages.ts';
+  const { givenName, familyName, emailAddress, frameworks, phoneNumber, cssColour} = validationMessages
 
   import Joi from 'joi';
 
@@ -13,14 +18,14 @@
 
   const schema = Joi.object({
     givenName: Joi.string().required().min(2).messages({
-      'string.empty': 'Whats you name?',
-      'string.min': 'Your name is too short, it must be at least {{#limit}} characters long',
+      'string.empty': givenName.required,
+      'string.min': givenName.minLength
     }),
-    familyName: Joi.string().required(),
-    emailAddress: Joi.string().email(),
-    phoneNumber: Joi.string().regex(/^[0-9]{10}$/).required(),
-    cssColour: Joi.string().required(),
-    frameworks: Joi.array().items(Joi.string()).required(),
+    familyName: Joi.string().required().messages({ message: familyName.required}),
+    emailAddress: Joi.string().email().messages({ message: emailAddress.inValid }),
+    phoneNumber: Joi.string().regex(/^[0-9]{10}$/).required().messages({ message: phoneNumber.required }),
+    cssColour: Joi.string().required().messages({ message: cssColour.required }),
+    frameworks: Joi.array().items(Joi.string()).required().messages({ message: frameworks.required }),
   });
 
   const isValid = shallowRef(undefined);
@@ -42,28 +47,20 @@
 </script>
 
 <template>
-  <header>
-    <h2>Joi</h2>
+  <PageHeader>
+    <template #title>
+      Joi
+    </template>
     <a href="https://joi.dev/">Joi website and documentation</a>
-  </header>
+  </PageHeader>
 
-  <p>
-    Joi is a schema description language and data validator for JavaScript objects.
-  </p>
+  <IntoSection cite-link="https://zod.dev/">
+    <template #into>
+      Joi is a schema description language and data validator for JavaScript objects.
+    </template>
 
-  <div>
-    <dl>
-      <dt>Documentation</dt>
-      <dd>Not that helpful, had to use AI to workout how it all works</dd>
-
-      <dt>Update frequency</dt>
-      <dd>10 Comments in Auguste</dd>
-
-      <dt>Tree shakeable</dt>
-      <dd>❌</dd>
-    </dl>
-
-    <pre>
+    <template #code>
+      <pre>
       <code>
         const schema = Joi.object({
           givenName: Joi.string().required().min(2).messages({
@@ -80,7 +77,8 @@
         const { error, value } = schema.validate(formDetails.value);
       </code>
     </pre>
-  </div>
+    </template>
+  </IntoSection>
 
   <testing-form @submit-form="submitForm" v-model:form-details="formDetails"/>
 

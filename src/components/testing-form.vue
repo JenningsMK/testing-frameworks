@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { defineModel } from 'vue';
   import { faker } from '@faker-js/faker'
 
   const emits = defineEmits(['submit-form']);
@@ -205,26 +204,26 @@
         </select>
       </div>
 
-      <fieldset>
+      <fieldset class="frameworks">
         <legend>Have you heard off any of these</legend>
 
         <div>
           <label for="frameworks-vue">
-            <a href="https://vuejs.org/">Vue</a>
+            Vue
           </label>
           <input v-model="modelValue.frameworks" type="checkbox" id="frameworks-vue" value="vue" name="frameworks" />
         </div>
 
         <div>
           <label for="frameworks-react">
-            <a href="https://react.dev/">React</a>
+            React
           </label>
           <input v-model="modelValue.frameworks" type="checkbox" id="frameworks-react" value="react" name="frameworks" />
         </div>
 
         <div>
           <label for="frameworks-svelte">
-            <a href="https://svelte.dev/">Svelte</a>
+            Svelte
           </label>
           <input v-model="modelValue.frameworks" type="checkbox" id="frameworks-svelte" value="svelte" name="frameworks" />
         </div>
@@ -236,3 +235,39 @@
     <button @click="() => fill()" type="button">Fill</button>
   </form>
 </template>
+
+<style>
+  fieldset {
+      margin-bottom: var(--spacing);
+
+      div {
+          margin-bottom: var(--spacing);
+      }
+
+      label {
+          display: block;
+      }
+
+      input, select {
+          padding: .3rem .8rem;
+      }
+
+      &.frameworks {
+          display: flex;
+          flex-wrap: wrap;
+          gap: var(--spacing);
+          margin-bottom: 0;
+
+          label {
+              display: inline-block;
+          }
+      }
+  }
+
+  button {
+      padding: .5rem 1rem;
+      margin-right: .5rem;
+      font-size: 1.2rem;
+  }
+
+</style>
