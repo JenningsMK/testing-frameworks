@@ -7,10 +7,10 @@
   const Data = z.object({
     givenName: z.string('Name is required').min(2, 'Name is too short'),
     familyName: z.string('Family name is required'),
-    // emailAddress: z.optional(z.email('Value doesnt look like an email address')),
+    emailAddress: z.optional(z.email('Value doesnt look like an email address')),
     phoneNumber: z.string('Phone number is required').regex(/^\d{10}$/, 'Phone number miss match'),
     cssColour: z.string('Colour is required'),
-    frameworks: z.array(z.string('Need an answer')),
+    frameworks: z.array(z.string()).min(1, 'Need an answer'),
   });
 
   const formDetails = ref({
@@ -57,7 +57,7 @@
       <code>
         const schema = {
           givenName: z.string('Name is required').min(2, 'Name is too short'),
-          familName: z.string()
+          familName: z.optional(z.string()),
         }
 
         Data.parse(data);
