@@ -16,7 +16,7 @@ const router = createRouter({
       component: () => import('@/views/joi.vue'),
     },
     {
-      name: 'vee',
+      name: 'veeValidate',
       path: '/vee-validate',
       component: () => import('@/views/vee-validate.vue'),
     },

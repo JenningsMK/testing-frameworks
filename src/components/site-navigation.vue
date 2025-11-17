@@ -8,7 +8,7 @@
       <router-link :to="{ name: 'regie' }">Regie</router-link>
     </li>
     <li>
-      <router-link :to="{ name: 'vee' }">VeeValidate</router-link>
+      <router-link :to="{ name: 'veeValidate' }">VeeValidate</router-link>
     </li>
     <li>
       <router-link :to="{ name: 'vest'}">Vest</router-link>

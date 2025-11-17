@@ -237,6 +237,10 @@
 </template>
 
 <style>
+  form {
+      column-count: 2;
+  }
+
   fieldset {
       margin-bottom: var(--spacing);
 

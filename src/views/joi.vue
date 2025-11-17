@@ -61,21 +61,21 @@
 
     <template #code>
       <pre>
-      <code>
-        const schema = Joi.object({
-          givenName: Joi.string().required().min(2).messages({
-            'string.empty': 'Whats you name?',
-            'string.min': 'Your name is too short, it must be at least {<!-- -->{#limit}} characters long',
-          }),
-          familyName: Joi.string().required(),
-          emailAddress: Joi.string().email(),
-          phoneNumber: Joi.string().regex(/^[0-9]{10}$/).required(),
-          cssColour: Joi.string().required(),
-          frameworks: Joi.array().items(Joi.string()).required(),
-        });
+        <code>
+          const schema = Joi.object({
+            givenName: Joi.string().required().min(2).messages({
+              'string.empty': 'Whats you name?',
+              'string.min': 'Your name is too short, it must be at least {<!-- -->{#limit}} characters long',
+            }),
+            familyName: Joi.string().required(),
+            emailAddress: Joi.string().email(),
+            phoneNumber: Joi.string().regex(/^[0-9]{10}$/).required(),
+            cssColour: Joi.string().required(),
+            frameworks: Joi.array().items(Joi.string()).required(),
+          });
 
-        const { error, value } = schema.validate(formDetails.value);
-      </code>
+          const { error, value } = schema.validate(formDetails.value);
+        </code>
     </pre>
     </template>
   </IntoSection>
