@@ -21,7 +21,7 @@
       givenName: faker.person.firstName(),
       familyName: faker.person.lastName(),
       emailAddress: faker.internet.email(),
-      phoneNumber: faker.phone.number(),
+      phoneNumber: '',
       cssColour: '',
       frameworks: [],
     }
