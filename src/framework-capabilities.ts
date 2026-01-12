@@ -11,7 +11,7 @@ enum Documentation {
   excellent = 'Easy to use and well documented'
 }
 
-export const frameworkCapabilities = {
+export const frameworkCapabilities: Record<string, FrameworkCapability> = {
   joi: {
     type: 'Schema',
     onChangeValidation: false,
